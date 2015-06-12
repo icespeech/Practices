@@ -48,8 +48,13 @@ int main()
     std::sort(ans.begin(), ans.end());
 
     Solution solution;
-    solution.merge(nums1, m, nums2, n);
+    //solution.merge(nums1, m, nums2, n);
 
+    vector<int> mv(1, 2);
+    mv.push_back(0);
+    vector<int> nv(1, 1);
+
+    solution.merge(mv, 1, nv, 1);
     std::cout << (vectorCompare(ans, nums1) ? "Match" : "Mis match");
 
     // halted to check the answer
