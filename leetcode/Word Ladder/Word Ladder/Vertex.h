@@ -1,20 +1,20 @@
+#include <set>
 #include <queue>
 #include <vector>
 #include <string>
 #include <unordered_set>
 #include <utility>
 
-using std::vector;
 using std::string;
-using std::pair;
 
 class Vertex
 {
 public:
-    Vertex(string str, std::queue<pair<Vertex*, unsigned int>>* wl):
+    Vertex(string str, std::set<Vertex*>* wlsp, std::queue<std::pair<Vertex*, unsigned int>>* wlp):
         mStr(str),
         mAdjacentVertices(),
-        mWaitingLine(wl)
+        mWaitingLineSetPtr(wlsp),
+        mWaitingLinePtr(wlp)
     {
     }
 
@@ -24,6 +24,7 @@ public:
     bool adjacentTo(Vertex*);
 private:
     string mStr;
-    vector<Vertex*> mAdjacentVertices;
-    std::queue<pair<Vertex*, unsigned int>>* mWaitingLine;
+    std::vector<Vertex*> mAdjacentVertices;
+    std::set<Vertex*>* mWaitingLineSetPtr;
+    std::queue<std::pair<Vertex*, unsigned int>>* mWaitingLinePtr;
 };

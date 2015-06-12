@@ -15,7 +15,11 @@ bool Vertex::search(unsigned int depth, string endWord)
         }
         else
         {
-            mWaitingLine->push(std::make_pair(adj, depth+1));
+            if (mWaitingLineSetPtr->find(adj) == mWaitingLineSetPtr->end())
+            {
+                mWaitingLineSetPtr->insert(adj);
+                mWaitingLinePtr->push(std::make_pair(adj, depth+1));
+            }
         }
     }
     return false;

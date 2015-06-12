@@ -1,23 +1,25 @@
 #include "SolutionClass.h"
 
-int Solution::ladderLength(string beginWord, string endWord, unordered_set<string>& wordDict)
+int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<string>& wordDict)
 {
     if (beginWord.compare(endWord) == 0)
     {
         return 1;
     }
 
-    unordered_set<Vertex*> vertices;
+    std::unordered_set<Vertex*> vertices;
 
-    Vertex* start = new Vertex(beginWord, &mWaitingLine);
+    Vertex* start = new Vertex(beginWord, &mWaitingLineSet, &mWaitingLine);
     vertices.insert(start);
 
-    Vertex* end = new Vertex(endWord, &mWaitingLine);
+    Vertex* end = new Vertex(endWord, &mWaitingLineSet, &mWaitingLine);
     vertices.insert(end);
 
     for (auto str: wordDict)
     {
-        Vertex* v = new Vertex(str, &mWaitingLine);
+        if (str.compare(beginWord) == 0 || str.compare(endWord) == 0)
+            continue;
+        Vertex* v = new Vertex(str, &mWaitingLineSet, &mWaitingLine);
         vertices.insert(v);
     }
 
@@ -25,7 +27,7 @@ int Solution::ladderLength(string beginWord, string endWord, unordered_set<strin
 
     mWaitingLine.push(std::make_pair(start, 2));
     
-    while (mWaitingLine.front().second < vertices.size())
+    while (mWaitingLine.size() > 0 && mWaitingLine.front().second <= vertices.size())
     {
         if (mWaitingLine.front().first->search(mWaitingLine.front().second, endWord))
         {
@@ -46,9 +48,9 @@ int Solution::ladderLength(string beginWord, string endWord, unordered_set<strin
     return 0;
 }
 
-void Solution::buildGraph(unordered_set<Vertex*>& vertices)
+void Solution::buildGraph(std::unordered_set<Vertex*>& vertices)
 {
-    vector<Vertex*> verticesVector(vertices.begin(), vertices.end());
+    std::vector<Vertex*> verticesVector(vertices.begin(), vertices.end());
 
     for (int i = 0; i < verticesVector.size()-1; ++i)
     {
