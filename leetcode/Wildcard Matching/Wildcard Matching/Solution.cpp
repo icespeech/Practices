@@ -19,12 +19,12 @@ inline bool isAllStar(string p)
 	return true;
 }
 
-string eliminateStars(const string& p)
+void eliminateStars(string& p)
 {
 	std::vector<char> v;
 	if (p.size() == 0)
 	{
-		return p;
+		return;
 	}
 
 	bool previousOneIsStar = false;
@@ -44,15 +44,12 @@ string eliminateStars(const string& p)
 		}
 		else
 		{
-			if (previousOneIsStar)
-			{
-				previousOneIsStar = false;
-			}
+			previousOneIsStar = false;
 			v.push_back(ch);
 		}
 	}
 
-	return string(v.begin(), v.end());
+	p = string(v.begin(), v.end());
 }
 
 bool recursiveMatching(string s, string p)
@@ -110,13 +107,84 @@ bool recursiveMatching(string s, string p)
 	}
 }
 
+// if the tail does not match (with no '*'), it can directly return false
+bool pruningByTail(string& s, string& p)
+{
+	for (int i = 1; i <= p.size(); ++i)
+	{
+		if (p[p.size() - i] == '*')
+		{
+			return true;
+		}
+		else if (s.size() < i)
+		{
+			return false;
+		}
+		else if (p[p.size() - i] == '?' || p[p.size() - i] == s[s.size() - i])
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool substringPatternsPruning(string& s, string& p)
+{
+	std::vector<char> substring;
+	std::vector<string> substrings;
+
+	if (s.size() * p.size() == 0)
+		return true;
+
+	for (auto ch : p)
+	{
+		if (ch != '*' && ch != '?')
+		{
+			substring.push_back(ch);
+		}
+		else
+		{
+			if (substring.size() != 0)
+			{
+				substrings.push_back(string(substring.begin(), substring.end()));
+				substring.clear();
+			}
+		}
+	}
+
+	int lastFoundPosition = -1;
+	for (auto ss : substrings)
+	{
+		if (string::npos == (lastFoundPosition = s.find(ss, lastFoundPosition + 1)))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 bool Solution::isMatch(string s, string p)
 {
-	p = eliminateStars(p);
+	eliminateStars(p);
 
 	if ((p.compare(s) == 0) || (p.compare("*") == 0))
 	{
 		return true;
+	}
+
+	if (!pruningByTail(s, p))
+	{
+		return false;
+	}
+
+	if (!substringPatternsPruning(s, p))
+	{
+		return false;
 	}
 
 	return recursiveMatching(s, p);

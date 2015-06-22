@@ -317,3 +317,13 @@ TEST(BananaTest, BananaTest)
 	EXPECT_TRUE(sol.isMatch("banana", "??*a*a"));
 	EXPECT_TRUE(sol.isMatch("banana", "???*a*a"));
 }
+
+/* LeetCode Test Data*/
+TEST(LeetCodeTest, LeetCodeTest1)
+{
+	Solution sol;
+	EXPECT_FALSE(sol.isMatch("abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
+		"**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb"));
+	EXPECT_FALSE(sol.isMatch("aaaabaabaabbbabaabaabbbbaabaaabaaabbabbbaaabbbbbbabababbaabbabbbbaababaaabbbababbbaabbbaabbaaabbbaabbbbbaaaabaaabaabbabbbaabababbaabbbabababbaabaaababbbbbabaababbbabbabaaaaaababbbbaabbbbaaababbbbaabbbbb",
+		"**a*b*b**b*b****bb******b***babaab*ba*a*aaa***baa****b***bbbb*bbaa*a***a*a*****a*b*a*a**ba***aa*a**a*"));
+}
