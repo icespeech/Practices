@@ -1,4 +1,4 @@
-#include "SolutionClass.h"
+#include "Solution.h"
 #include <vector>
 using std::vector;
 

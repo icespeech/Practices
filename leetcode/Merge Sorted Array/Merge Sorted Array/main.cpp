@@ -6,7 +6,7 @@
 #include <ctime>
 #include <random>
 #include <chrono>
-#include "SolutionClass.h"
+#include "Solution.h"
 
 const int MAX_TEST_RANDOM = 1000;
 

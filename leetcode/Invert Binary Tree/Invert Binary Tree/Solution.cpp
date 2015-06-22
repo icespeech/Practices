@@ -1,4 +1,4 @@
-#include "SolutionClass.h"
+#include "Solution.h"
 #include <algorithm>
 
 void PostOrderSwapSubTrees(TreeNode* node)

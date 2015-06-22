@@ -1,4 +1,4 @@
-#include "SolutionClass.h"
+#include "Solution.h"
 
 void Solution::merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
 {

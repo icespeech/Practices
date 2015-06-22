@@ -1,4 +1,4 @@
-#include "SolutionClass.h"
+#include "Solution.h"
 
 int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<string>& wordDict)
 {

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SolutionClass.h"
+#include "Solution.h"
 using std::cout;
 
 int main()
