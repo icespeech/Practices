@@ -284,8 +284,16 @@ TEST(ManyCharInputTest, ComplicatedPattern)
 	EXPECT_FALSE(sol.isMatch("test", "??t?"));
 	EXPECT_TRUE(sol.isMatch("test", "??s?"));
 	EXPECT_FALSE(sol.isMatch("test", "?*t?"));
-}
 
+	EXPECT_TRUE(sol.isMatch("test", "te?t"));
+	EXPECT_TRUE(sol.isMatch("test", "te*t"));
+	EXPECT_TRUE(sol.isMatch("test", "t*t"));
+	EXPECT_TRUE(sol.isMatch("test", "t?s?"));
+	EXPECT_TRUE(sol.isMatch("test", "t*s?"));
+	EXPECT_TRUE(sol.isMatch("test", "t?s*"));
+	EXPECT_TRUE(sol.isMatch("test", "?es?"));
+	EXPECT_TRUE(sol.isMatch("test", "*es*"));
+}
 
 /* Special Character Input */
 TEST(OneSpecialCharInputTest, ZeroAndOneCharPattern)
@@ -296,4 +304,15 @@ TEST(OneSpecialCharInputTest, ZeroAndOneCharPattern)
 	EXPECT_FALSE(sol.isMatch("*", "a"));
 	EXPECT_TRUE(sol.isMatch("*", "?"));
 	EXPECT_TRUE(sol.isMatch("*", "*"));
+}
+
+/* Banana Test: Duplicated Substrings */
+TEST(BananaTest, BananaTest)
+{
+	Solution sol;
+
+	EXPECT_TRUE(sol.isMatch("banana", "?an*"));
+	EXPECT_TRUE(sol.isMatch("banana", "???an*"));
+	EXPECT_TRUE(sol.isMatch("banana", "*a*a??"));
+	EXPECT_TRUE(sol.isMatch("banana", "??*a*a"));
 }
