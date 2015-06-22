@@ -315,4 +315,5 @@ TEST(BananaTest, BananaTest)
 	EXPECT_TRUE(sol.isMatch("banana", "???an*"));
 	EXPECT_TRUE(sol.isMatch("banana", "*a*a??"));
 	EXPECT_TRUE(sol.isMatch("banana", "??*a*a"));
+	EXPECT_TRUE(sol.isMatch("banana", "???*a*a"));
 }
