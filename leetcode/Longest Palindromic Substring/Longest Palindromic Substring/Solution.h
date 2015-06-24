@@ -2,5 +2,5 @@
 
 class Solution {
 public:
-	std::string longestPalindrome(std::string s);
+    std::string longestPalindrome(std::string s);
 };
