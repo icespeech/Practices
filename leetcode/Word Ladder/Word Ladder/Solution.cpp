@@ -9,14 +9,6 @@ bool stringAdj(const string& a, const string& b)
     return true;
 }
 
-bool setAdj(const string& str, const std::unordered_set<string> st)
-{
-    for (auto s : st)
-        if (stringAdj(s, str)) return true;
-    
-    return false;
-}
-
 int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<string>& wordDict)
 {
     if (beginWord.size() == 0 || endWord.size() == 0 || beginWord.size() != endWord.size()) return 0;
