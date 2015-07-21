@@ -1,5 +1,5 @@
 #include "Vertex.h"
-
+using std::string;
 void Vertex::addAdjacent(Vertex* adj)
 {
     mAdjacentVertices.push_back(adj);

@@ -1,6 +1,8 @@
 #include "Solution.h"
 #include "gtest\gtest.h"
 
+using std::string;
+
 int main(int argc, char* argv[])
 {
 	::testing::InitGoogleTest(&argc, argv);
