@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include <vector>
+#include <set>
 #include "Solution.h"
 using std::string;
 using std::unordered_set;
@@ -31,10 +32,10 @@ int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<
     }
 
     unordered_set<string> visited;
-    unordered_set<string> layerSetFromStart;
-    unordered_set<string> layerSetFromEnd;
-    unordered_set<string> tmpLayerSetFromStart;
-    unordered_set<string> tmpLayerSetFromEnd;
+    std::set<string> layerSetFromStart;
+    std::set<string> layerSetFromEnd;
+    std::set<string> tmpLayerSetFromStart;
+    std::set<string> tmpLayerSetFromEnd;
 
     layerSetFromStart.insert(beginWord);
     layerSetFromEnd.insert(endWord);
