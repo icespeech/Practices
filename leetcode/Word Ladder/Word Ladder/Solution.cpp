@@ -1,5 +1,8 @@
+#include <unordered_map>
+#include <vector>
 #include "Solution.h"
 using std::string;
+using std::unordered_set;
 
 bool stringAdj(const string& a, const string& b)
 {
@@ -15,40 +18,51 @@ int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<
     if (beginWord.compare(endWord) == 0) return 1;
     if (stringAdj(beginWord, endWord)) return 2;
 
-    std::unordered_set<string> layerSetFromStart;
-    std::unordered_set<string> layerSetFromEnd;
-    std::unordered_set<string> tmpLayerSetFromStart;
-    std::unordered_set<string> tmpLayerSetFromEnd;
+    std::unordered_map<string, std::vector<string>> graph;
+
+    for (const string& s : wordDict)
+    {
+        for (int i = 0; i < s.size(); ++i)
+        {
+            string tmp = s;
+            tmp[i] = '*';
+            graph[tmp].push_back(s);
+        }
+    }
+
+    unordered_set<string> visited;
+    unordered_set<string> layerSetFromStart;
+    unordered_set<string> layerSetFromEnd;
+    unordered_set<string> tmpLayerSetFromStart;
+    unordered_set<string> tmpLayerSetFromEnd;
 
     layerSetFromStart.insert(beginWord);
     layerSetFromEnd.insert(endWord);
 
-    int startDepth = 1, endDepth = 1;
+    int startDepth = 1, endDepth = 0;
 
     while (layerSetFromStart.size() > 0 || layerSetFromEnd.size() > 0)
     {
         /*
         * start side
         */
-        for (auto curStart : layerSetFromStart)
+        for (const string& curStart : layerSetFromStart)
         {
+            visited.insert(curStart);
             for (int i = 0; i < curStart.size(); ++i)
             {
                 string tmpS = curStart;
-                for (char c = 'a'; c <= 'z'; ++c)
+                tmpS[i] = '*';
+                for (const string& s : graph[tmpS])
                 {
-                    if (c == curStart[i]) continue;
+                    if (visited.find(s) != visited.end())
+                        continue;
 
-                    tmpS[i] = c;
                     // there is this node, and this node is in the leaf layer of the end side => found
-                    if (layerSetFromEnd.find(tmpS) != layerSetFromEnd.end())
-                        return startDepth + endDepth;
-
-                    // there is this node in the dict
-                    if (wordDict.find(tmpS) != wordDict.end())
-                    {
-                        tmpLayerSetFromStart.insert(tmpS);
-                    }
+                    if (layerSetFromEnd.find(s) != layerSetFromEnd.end())
+                        return startDepth + endDepth + 1;
+                    
+                    tmpLayerSetFromStart.insert(s);
                 }
             }
         }
@@ -59,26 +73,25 @@ int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<
         /*
         * end side
         */
-        for (auto curEnd : layerSetFromEnd)
+        for (const string& curEnd : layerSetFromEnd)
         {
+            visited.insert(curEnd);
             for (int i = 0; i < curEnd.size(); ++i)
             {
                 string tmpE = curEnd;
-                for (char c = 'a'; c <= 'z'; ++c)
+                tmpE[i] = '*';
+                for (const string& s : graph[tmpE])
                 {
-                    if (c == curEnd[i]) continue;
+                    if (visited.find(s) != visited.end())
+                        continue;
 
-                    tmpE[i] = c;
-                    if (layerSetFromStart.find(tmpE) != layerSetFromStart.end())
-                        return startDepth + endDepth;
-
-                    // there is this node in the dict
-                    if (wordDict.find(tmpE) != wordDict.end())
-                        tmpLayerSetFromEnd.insert(tmpE);
+                    if (layerSetFromStart.find(s) != layerSetFromStart.end())
+                        return startDepth + endDepth + 1;
+                    
+                    tmpLayerSetFromEnd.insert(s);
                 }
-            } // end for loop of every character of the word
+            }
         }
-
         endDepth++;
         layerSetFromEnd = tmpLayerSetFromEnd;
         tmpLayerSetFromEnd.clear();
