@@ -34,16 +34,16 @@ TEST(EmptyStringTest, EmptyStringTest)
     EXPECT_STREQ("", sol.longestCommonPrefix(strs3).c_str());
 }
 
-TEST(SameInputTest, SameInputTest)
+TEST(NoAnswerTest, NoAnswerTest)
 {
     Solution sol;
-    std::vector<string> strs1 = { "a", "a" };
-    std::vector<string> strs2 = { "abc", "abc" };
-    std::vector<string> strs3 = { "abcdef", "abcdef", "abcdef", "abcdef", "abcdef", "abcdef", "abcdef", "abcdef" };
+    std::vector<string> strs1 = { "a", "b" };
+    std::vector<string> strs2 = { "abc", "def" };
+    std::vector<string> strs3 = { "abcdef", "bcdefa", "cdefab", "defabc", "efabcd", "fabcde" };
 
-    EXPECT_STREQ("a", sol.longestCommonPrefix(strs1).c_str());
-    EXPECT_STREQ("abc", sol.longestCommonPrefix(strs2).c_str());
-    EXPECT_STREQ("abcdef", sol.longestCommonPrefix(strs3).c_str());
+    EXPECT_STREQ("", sol.longestCommonPrefix(strs1).c_str());
+    EXPECT_STREQ("", sol.longestCommonPrefix(strs2).c_str());
+    EXPECT_STREQ("", sol.longestCommonPrefix(strs3).c_str());
 }
 
 TEST(SameInputTest, SameInputTest)
@@ -61,8 +61,8 @@ TEST(SameInputTest, SameInputTest)
 TEST(SimpleInputTest, SameInputTest)
 {
     Solution sol;
-    std::vector<string> strs1 = { "a", "a" };
-    std::vector<string> strs2 = { "abc", "abc" };
+    std::vector<string> strs1 = { "a", "ab" };
+    std::vector<string> strs2 = { "abcd", "abc" };
 
     EXPECT_STREQ("a", sol.longestCommonPrefix(strs1).c_str());
     EXPECT_STREQ("abc", sol.longestCommonPrefix(strs2).c_str());
