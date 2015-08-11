@@ -3,7 +3,7 @@
 #include <set>
 #include "Solution.h"
 using std::string;
-using std::unordered_set;
+using std::set;
 
 bool stringAdj(const string& a, const string& b)
 {
@@ -31,11 +31,11 @@ int Solution::ladderLength(string beginWord, string endWord, std::unordered_set<
         }
     }
 
-    unordered_set<string> visited;
-    std::set<string> layerSetFromStart;
-    std::set<string> layerSetFromEnd;
-    std::set<string> tmpLayerSetFromStart;
-    std::set<string> tmpLayerSetFromEnd;
+    std::unordered_set<string> visited;
+    set<string> layerSetFromStart;
+    set<string> layerSetFromEnd;
+    set<string> tmpLayerSetFromStart;
+    set<string> tmpLayerSetFromEnd;
 
     layerSetFromStart.insert(beginWord);
     layerSetFromEnd.insert(endWord);
