@@ -43,8 +43,6 @@ vector<vector<int>> Solution::permuteUnique(vector<int>& nums)
     if (nums.size() == 0) return vector<vector<int>>();
     if (nums.size() == 1) return vector<vector<int>>({ { nums[0] } });
     
-    std::set<int> used;
-
     ret.clear();
     recurse(nums);
 
