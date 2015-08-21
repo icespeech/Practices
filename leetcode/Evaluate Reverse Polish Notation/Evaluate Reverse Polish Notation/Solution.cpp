@@ -6,5 +6,5 @@ using std::stack;
 
 int Solution::evalRPN(vector<string>& tokens)
 {
-
+    return 0;
 }

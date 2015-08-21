@@ -20,3 +20,29 @@ TEST(EmptyTest, EmptyTest)
 
     EXPECT_EQ(0, result);
 }
+
+TEST(OneElementTest, OneElementTest)
+{
+    Solution sol;
+    auto result = sol.evalRPN(vector<string>({"1"}));
+
+    EXPECT_EQ(1, result);
+}
+
+TEST(SimpleCalculatingTest, SimpleCalculatingTest)
+{
+    Solution sol;
+    auto result = sol.evalRPN(vector<string>({ "1", "2", "+" }));
+
+    EXPECT_EQ(3, result);
+}
+
+TEST(LeetcodeExampleTest, LeetcodeExampleTest)
+{
+    Solution sol;
+    auto result = sol.evalRPN(vector<string>({ "2", "1", "+", "3", "*" }));
+    EXPECT_EQ(9, result);
+
+    result = sol.evalRPN(vector<string>({ "4", "13", "5", "/", "+" }));
+    EXPECT_EQ(6, result);
+}
