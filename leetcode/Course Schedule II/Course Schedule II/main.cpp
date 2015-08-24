@@ -22,7 +22,7 @@ TEST(EmptyTest, EmptyTest)
     EXPECT_EQ(0, result.size());
 }
 
-TEST(FuckyouIdiotTest, FuckyouIdiotTest)
+TEST(MoreCoursesTese, MoreCoursesTese)
 {
     Solution sol;
     auto result1 = sol.findOrder(1, vector<pair<int, int>>());

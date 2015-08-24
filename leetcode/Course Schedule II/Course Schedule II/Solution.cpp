@@ -1,89 +1,91 @@
+#define _SCL_SECURE_NO_WARNINGS
+
 #include "Solution.h"
-
-#define course_num first
-#define course_item second
-#define in_level first
-#define nexts second
-
+#include <algorithm>
 #include <list>
 #include <set>
-#include <unordered_map>
 #include <queue>
 using std::vector;
 using std::pair;
+
+class courseItem
+{
+public:
+    courseItem(int c, int i) :
+        courseNum(c),
+        inLevel(i)
+    {};
+    int courseNum;
+    int inLevel;
+    std::list<courseItem*> nexts;
+};
 
 vector<int> Solution::findOrder(int numCourses, vector<pair<int, int>>& prerequisites)
 {
     if (numCourses == 0) return vector<int>();
 
     vector<int> ret;
-    // course number, course in-level, next courses
-    std::unordered_map<int, pair<int, vector<int>>> courses;
-    std::set<int> firstTimeElements;
-    std::queue<int> toBeTaken;
-    
+    courseItem** courses = new courseItem*[numCourses];
+    std::fill_n(courses, numCourses, nullptr);
+
+    std::set<courseItem*> firstTimeElements;
+    std::queue<courseItem*> toBeTaken;
+
     // list of prerequisites
     std::list<pair<int, int>> lp(prerequisites.begin(), prerequisites.end());
     for (auto course_chain : lp)
     {
         int former_course = course_chain.second, later_course = course_chain.first;
 
-        if (courses.find(former_course) == courses.end())
+        if (courses[former_course] == nullptr)
         {
-            courses[former_course].in_level = 0;
-            courses[former_course].nexts.push_back(later_course);
-            firstTimeElements.insert(former_course);
+            courses[former_course] = new courseItem(former_course, 0);
+            firstTimeElements.insert(courses[former_course]);
         }
-        else courses[former_course].nexts.push_back(later_course);
 
-        if (courses.find(later_course) == courses.end())
-            courses[later_course].in_level = 1;
+        if (courses[later_course] == nullptr)
+            courses[later_course] = new courseItem(later_course, 1);
         else
-            ++courses[later_course].in_level;
+            ++courses[later_course]->inLevel;
 
-        // the later course had dependancies, it's impossible to be a first time taken course
-        firstTimeElements.erase(later_course);
+        courses[former_course]->nexts.push_back(courses[later_course]);
+        firstTimeElements.erase(courses[later_course]);
     }
 
-    std::set<int> remaining_courses;
-    for (int i = 0; i < numCourses; ++i)
-        remaining_courses.insert(i);
-
-    for (auto fte : firstTimeElements)
-    {
-        ret.push_back(fte);
-        for (int next_course : courses[fte].nexts)
-        {
-            --courses[next_course].in_level;
-            if (courses[next_course].in_level == 0)
-                toBeTaken.push(next_course);
-        }
-        courses.erase(fte);
-        remaining_courses.erase(fte);
-    }
+    for (auto e : firstTimeElements)
+        toBeTaken.push(e);
 
     while (toBeTaken.size() > 0)
     {
-        int toBeTakenCourse = toBeTaken.front();
+        int toBeTakenCourse = toBeTaken.front()->courseNum;
 
         ret.push_back(toBeTakenCourse);
-        for (int i : courses[toBeTakenCourse].nexts)
+        for (auto n : courses[toBeTakenCourse]->nexts)
         {
-            --courses[i].in_level;
-            if (courses[i].in_level == 0)
-                toBeTaken.push(i);
+            int nextCourse = n->courseNum;
+            --courses[nextCourse]->inLevel;
+            if (courses[nextCourse]->inLevel == 0)
+                toBeTaken.push(courses[nextCourse]);
         }
-        courses.erase(toBeTakenCourse);
         toBeTaken.pop();
-
-        remaining_courses.erase(toBeTakenCourse);
     }
-    if (courses.size() != 0)
+
+    bool circle = false;
+    for (int i = 0; i < numCourses; ++i)
+    {
+        if (courses[i] == nullptr)
+            ret.push_back(i);
+        else
+        {
+            if (courses[i]->inLevel != 0)
+                circle = true;
+            delete courses[i];
+        }
+    }
+
+    delete[] courses;
+    if (circle)
         return vector<int>();
-    
-    auto it = remaining_courses.begin();
-    for (int i = ret.size(); i < numCourses; ++i)
-        ret.push_back(*it++);
 
     return ret;
 }
